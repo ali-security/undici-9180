@@ -2,9 +2,6 @@ name: Node.js Nightly
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "0 10 * * *"
-
 permissions:
   contents: read
 
@@ -16,8 +13,8 @@ jobs:
       fail-fast: false
       max-parallel: 0
       matrix:
-        node-version: ['25-nightly']
-        runs-on: [ubuntu-latest, windows-latest, macos-latest]
+        node-version: [25-nightly]
+        runs-on: [ubuntu-24.04, windows-2025, macos-15]
     uses: ./.github/workflows/nodejs.yml
     with:
       node-version: ${{ matrix.node-version }}
@@ -28,7 +25,7 @@ jobs:
     if: github.repository == 'nodejs/undici'
     uses: ./.github/workflows/autobahn.yml
     with:
-      node-version: '25-nightly'
+      node-version: 25-nightly
     secrets: inherit
 
   test-shared-builtin:
@@ -36,7 +33,7 @@ jobs:
     uses: ./.github/workflows/nodejs-shared.yml
     with:
       node-version: '25'
-      node-download-server-path: '/nightly'
+      node-download-server-path: /nightly
 
   report-failure:
     if: ${{ always() && (needs.test.result == 'failure' || needs.test-shared-builtin.result == 'failure' || needs.autobahn.result == 'failure') }}
@@ -44,7 +41,7 @@ jobs:
       - test
       - test-shared-builtin
       - autobahn
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       issues: write
     steps:

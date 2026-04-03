@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'The version number to release (has priority over release_type)'
+        description: The version number to release (has priority over release_type)
         type: string
       release_type:
         description: Type of release
@@ -20,7 +20,7 @@ on:
 
 jobs:
   create-pr:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
 
     permissions:
       contents: write
@@ -40,7 +40,7 @@ jobs:
         uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
         id: setup-node
         with:
-          node-version: 'lts/*'
+          node-version: lts/*
       - name: Git Config
         id: git-config
         run: |

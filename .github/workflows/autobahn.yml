@@ -9,9 +9,9 @@ on:
         type: string
   pull_request:
     paths:
-      - '.github/workflows/autobahn.yml'
-      - 'lib/web/websocket/**'
-      - 'test/autobahn/**'
+      - .github/workflows/autobahn.yml
+      - lib/web/websocket/**
+      - test/autobahn/**
 
 permissions:
   contents: read
@@ -19,13 +19,13 @@ permissions:
 jobs:
   autobahn:
     name: Autobahn Test Suite
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     container: node:24
     services:
       fuzzingserver:
         image: crossbario/autobahn-testsuite:latest
         ports:
-          - '9001:9001'
+          - 9001:9001
         options: --name fuzzingserver
         volumes:
           - ${{ github.workspace }}/test/autobahn/config:/config
@@ -36,7 +36,7 @@ jobs:
         with:
           persist-credentials: false
           clean: false
-      
+
       - name: Restart Autobahn Server
         # Restart service after volumes have been checked out
         uses: docker://docker

@@ -9,7 +9,7 @@ on:
       node-download-server-path:
         required: false
         type: string
-        default: '/release'
+        default: /release
 
 permissions:
   contents: read
@@ -17,7 +17,7 @@ permissions:
 jobs:
   test-shared-builtin:
     name: Test with Node.js ${{ inputs.node-version }} compiled --shared-builtin-undici/undici-path
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 120
     steps:
       # Checkout into a subdirectory otherwise Node.js tests will break due to finding Undici's package.json in a parent directory.
@@ -31,7 +31,7 @@ jobs:
       - name: Setup Node.js lts/*
         uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
         with:
-          node-version: 'lts/*'
+          node-version: lts/*
 
       - name: Install dependencies
         working-directory: ./undici

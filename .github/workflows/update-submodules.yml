@@ -2,13 +2,10 @@ name: Update Submodules
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '0 0 * * *'
-
 jobs:
   update-wpt:
     name: Update Submodules
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     permissions:
       contents: write
       pull-requests: write
@@ -18,7 +15,7 @@ jobs:
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
           persist-credentials: true
-  
+
       - name: Git Config
         id: git-config
         run: |
@@ -40,7 +37,7 @@ jobs:
             echo "changes detected"
             echo "change=true" >> "$GITHUB_OUTPUT"
           fi
-      
+
       - name: Create Branch
         id: create-branch
         if: ${{ steps.check-for-changes.outputs.change == 'true'}}
@@ -49,7 +46,7 @@ jobs:
           git add .
           git commit -m "chore: update Submodules"
           git push --force --set-upstream origin submodules-update
-      
+
       - name: Create Pull Request
         id: create-pr
         if: ${{ steps.check-for-changes.outputs.change == 'true'}}
@@ -59,4 +56,4 @@ jobs:
           branch: submodules-update
           title: Update Submodules
           body: Automated update of the Submodules
-          commit-message: "chore: update Submodules"
+          commit-message: 'chore: update Submodules'
